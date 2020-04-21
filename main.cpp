@@ -106,7 +106,10 @@ void Nave::muerte()
     }
 }
 
-
+void cancionMenu()
+{
+    PlaySound(TEXT("menu.wav"),NULL,SND_ASYNC);
+}
 //Funcion para ocultar el parpadeo del cursor
 void cursor_ocultar()
 {
@@ -131,7 +134,13 @@ int menu(const char *titulo,const char *opciones[],int n)
         system("cls");
         SetConsoleTextAttribute(cons,14);
         gotoxy(33,20+opcionSeleccionada);printf("-->");
-        gotoxy(35,5);printf(titulo);
+        gotoxy(3,5);printf("#     #                          #####                                    ");
+        gotoxy(3,6);printf("##   ##  ####   ####  #    #    #     # #####  ######  ####  #####   ##   ");
+        gotoxy(3,7);printf("# # # # #    # #    # ##   #    #       #    # #      #        #    #  #  ");
+        gotoxy(3,8);printf("#  #  # #    # #    # # #  #    #       #    # #####   ####    #   #    #   ");
+        gotoxy(3,9);printf("#     # #    # #    # #  # #    #       #####  #           #   #   ###### ");
+        gotoxy(3,10);printf("#     # #    # #    # #   ##    #     # #   #  #      #    #   #   #    # ");
+        gotoxy(3,11);printf("#     #  ####   ####  #    #     #####  #    # ######  ####    #   #    # ");
         SetConsoleTextAttribute(cons,7);
         for(int i=0;i<n;i++)
         {
@@ -163,6 +172,7 @@ int menu(const char *titulo,const char *opciones[],int n)
         }
 
     }
+
     SetConsoleTextAttribute(cons,15);
     return opcionSeleccionada;
 }
@@ -216,18 +226,22 @@ void limites()
 
 int main()
 {
+    //Crear el objeto
+    Nave ob(38,27,3);
+    cursor_ocultar();
     const char *titulo = "Moon Cresta";
     const char *opciones[] = {"Jugar","Creditos","Salir"};
     int n = 3;
     int tecla;
     int opcion;
     bool fin = false;
-
-    cursor_ocultar();
-    //Crear el objeto
-    Nave ob(38,27,3);
+    bool men = true;
+    while(men)
+    {
+    cancionMenu();
     opcion = menu(titulo,opciones,n);
     limpiarPantalla();
+    PlaySound(NULL,NULL,0);
     switch(opcion){
         case 1:
             limites();
@@ -246,14 +260,18 @@ int main()
             tecla=getch();
             if(tecla==enter)
             {
-                menu(titulo,opciones,n);
+                break;
+            }else
+            {
+                return 0;
             }
-            break;
         case 3:
             return 0;
             break;
 
     }
+    }
+
 
     return 0;
 }
